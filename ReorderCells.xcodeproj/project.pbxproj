@@ -38,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4D333CC018114893003BEF9D /* ReorderCells 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ReorderCells 2.xcdatamodel"; sourceTree = "<group>"; };
 		4DB8B5B318114008000556B6 /* ReorderCells.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReorderCells.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DB8B5B618114008000556B6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4DB8B5B818114008000556B6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -478,6 +479,7 @@
 				4DB8B5F018114008000556B6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4DB8B5F118114008000556B6 /* Build configuration list for PBXNativeTarget "ReorderCellsTests" */ = {
 			isa = XCConfigurationList;
@@ -486,6 +488,7 @@
 				4DB8B5F318114008000556B6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
@@ -493,9 +496,10 @@
 		4DB8B5CD18114008000556B6 /* ReorderCells.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				4D333CC018114893003BEF9D /* ReorderCells 2.xcdatamodel */,
 				4DB8B5CE18114008000556B6 /* ReorderCells.xcdatamodel */,
 			);
-			currentVersion = 4DB8B5CE18114008000556B6 /* ReorderCells.xcdatamodel */;
+			currentVersion = 4D333CC018114893003BEF9D /* ReorderCells 2.xcdatamodel */;
 			path = ReorderCells.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

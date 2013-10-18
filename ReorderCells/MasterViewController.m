@@ -37,15 +37,33 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (NSUInteger)countEvents
+{
+    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+    NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init] ;
+    [request setEntity: entity];
+    NSError *error = nil;
+    NSUInteger count = [context countForFetchRequest:request error:&error];
+    if (count == NSNotFound) {
+        count = 0;
+    }
+    return count;
+}
+
 - (void)insertNewObject:(id)sender
 {
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
     NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
+    
+    NSUInteger orderIdx = 1 + [self countEvents];
+    
     NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
     
     // If appropriate, configure the new managed object.
     // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-    [newManagedObject setValue:[NSDate date] forKey:@"timeStamp"];
+    [newManagedObject setValue:[NSDate date] forKey:@"timeStamp"];    
+    [newManagedObject setValue:[NSNumber numberWithInteger:orderIdx] forKey:@"orderIdx"];
     
     // Save the context.
     NSError *error = nil;
@@ -135,7 +153,7 @@
     [fetchRequest setFetchBatchSize:20];
     
     // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timeStamp" ascending:NO];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"orderIdx" ascending:NO];
     NSArray *sortDescriptors = @[sortDescriptor];
     
     [fetchRequest setSortDescriptors:sortDescriptors];
@@ -221,6 +239,7 @@
 {
     NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = [[object valueForKey:@"timeStamp"] description];
+    //NSLog(@"Index: %@", [object valueForKey:@"orderIdx"]);
 }
 
 @end
