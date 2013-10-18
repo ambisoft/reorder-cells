@@ -122,9 +122,25 @@
     return YES;
 }
 
+-(void)swapOrderBetween:(NSManagedObject*)object1 and:(NSManagedObject*)object2
+{
+    NSNumber *idx1 = [object1 valueForKey:@"orderIdx"];
+    NSNumber *idx2 = [object2 valueForKey:@"orderIdx"];
+    [object1 setValue:idx2 forKey:@"orderIdx"];
+    [object2 setValue:idx1 forKey:@"orderIdx"];    
+    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+    NSError *error = nil;
+    if (![context save:&error]) {
+        NSLog(@"Unresolved error when swapping objects order: %@, %@", error, [error userInfo]);
+        abort();
+    }
+}
+
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
-    
+    NSManagedObject *object1 = [[self fetchedResultsController] objectAtIndexPath:fromIndexPath];
+    NSManagedObject *object2 = [[self fetchedResultsController] objectAtIndexPath:toIndexPath];
+    [self swapOrderBetween:object1 and:object2];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
