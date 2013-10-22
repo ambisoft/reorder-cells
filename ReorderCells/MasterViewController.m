@@ -125,10 +125,8 @@
 - (void)adjustOrderIdxForRow:(NSInteger)row inSection:(NSInteger)section by:(NSInteger)adjustment
 {
     NSIndexPath *path = [NSIndexPath indexPathForRow:row inSection:section];
-    NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:path];
-    NSNumber *orderIdx = [object valueForKey:@"orderIdx"];
-    orderIdx = [NSNumber numberWithInteger:[orderIdx integerValue] + adjustment];
-    [object setValue:orderIdx forKey:@"orderIdx"];
+    Event *event = [[self fetchedResultsController] objectAtIndexPath:path];
+    event.orderIdx = [NSNumber numberWithInteger:[event.orderIdx integerValue] + adjustment];
 }
 
 - (void)moveUp:(NSIndexPath*)fromIndexPath to:(NSIndexPath*)toIndexPath
