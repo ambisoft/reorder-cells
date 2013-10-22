@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D65EB4918166166005D023B /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D65EB4818166166005D023B /* Event.m */; };
 		4DB8B5B718114008000556B6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB8B5B618114008000556B6 /* Foundation.framework */; };
 		4DB8B5B918114008000556B6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB8B5B818114008000556B6 /* CoreGraphics.framework */; };
 		4DB8B5BB18114008000556B6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB8B5BA18114008000556B6 /* UIKit.framework */; };
@@ -38,7 +39,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4D333CC018114893003BEF9D /* ReorderCells 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ReorderCells 2.xcdatamodel"; sourceTree = "<group>"; };
+		4D333CC018114893003BEF9D /* ReorderCells 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ReorderCells 2.xcdatamodel"; sourceTree = "<group>"; };
+		4D65EB4718166166005D023B /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		4D65EB4818166166005D023B /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		4DB8B5B318114008000556B6 /* ReorderCells.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReorderCells.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DB8B5B618114008000556B6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4DB8B5B818114008000556B6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -124,6 +127,8 @@
 		4DB8B5BE18114008000556B6 /* ReorderCells */ = {
 			isa = PBXGroup;
 			children = (
+				4D65EB4718166166005D023B /* Event.h */,
+				4D65EB4818166166005D023B /* Event.m */,
 				4DB8B5C718114008000556B6 /* AppDelegate.h */,
 				4DB8B5C818114008000556B6 /* AppDelegate.m */,
 				4DB8B5CA18114008000556B6 /* Main.storyboard */,
@@ -264,6 +269,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D65EB4918166166005D023B /* Event.m in Sources */,
 				4DB8B5D518114008000556B6 /* DetailViewController.m in Sources */,
 				4DB8B5D218114008000556B6 /* MasterViewController.m in Sources */,
 				4DB8B5C918114008000556B6 /* AppDelegate.m in Sources */,

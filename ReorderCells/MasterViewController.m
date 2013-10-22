@@ -7,8 +7,8 @@
 //
 
 #import "MasterViewController.h"
-
 #import "DetailViewController.h"
+#import "Event.h"
 
 @interface MasterViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -135,33 +135,32 @@
 {
     NSInteger section = fromIndexPath.section;
     
-    NSManagedObject *objectMoved = [[self fetchedResultsController] objectAtIndexPath:fromIndexPath];
-    NSManagedObject *firstObject = [[self fetchedResultsController] objectAtIndexPath:toIndexPath];
-    NSNumber *firstOrderIdx = [firstObject valueForKey:@"orderIdx"];
+    Event *objectMoved = [[self fetchedResultsController] objectAtIndexPath:fromIndexPath];
+    Event *firstObject = [[self fetchedResultsController] objectAtIndexPath:toIndexPath];
+    NSNumber *firstOrderIdx = firstObject.orderIdx;
     for (NSInteger i = toIndexPath.row; i <= fromIndexPath.row - 1; i++) {
         [self adjustOrderIdxForRow:i inSection:section by:-1];
     }
-    [objectMoved setValue:firstOrderIdx forKey:@"orderIdx"];
+    objectMoved.orderIdx = firstOrderIdx;
 }
 
 - (void)moveDown:(NSIndexPath*)fromIndexPath to:(NSIndexPath*)toIndexPath
 {
     NSInteger section = fromIndexPath.section;
     
-    NSManagedObject *objectMoved = [[self fetchedResultsController] objectAtIndexPath:fromIndexPath];
-    NSManagedObject *lastObject = [[self fetchedResultsController] objectAtIndexPath:toIndexPath];
-    NSNumber *lastOrderIdx = [lastObject valueForKey:@"orderIdx"];
+    Event *objectMoved = [[self fetchedResultsController] objectAtIndexPath:fromIndexPath];
+    Event *lastObject = [[self fetchedResultsController] objectAtIndexPath:toIndexPath];
+    NSNumber *lastOrderIdx = lastObject.orderIdx;
     for (NSInteger i = fromIndexPath.row + 1; i <= toIndexPath.row; i++) {
         [self adjustOrderIdxForRow:i inSection:section by:1];
     }
-    [objectMoved setValue:lastOrderIdx forKey:@"orderIdx"];
+    objectMoved.orderIdx = lastOrderIdx;
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
     BOOL moveDown = toIndexPath.row > fromIndexPath.row;
     moveDown ? [self moveDown:fromIndexPath to:toIndexPath] : [self moveUp:fromIndexPath to:toIndexPath];
-    //NSLog(@"Records: %@", [[self fetchedResultsController] fetchedObjects]);
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
     NSError *error = nil;
     if (![context save:&error]) {
@@ -280,9 +279,9 @@
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [[object valueForKey:@"timeStamp"] description];
-    //NSLog(@"Path: %@, orderIdx: %@", indexPath, [object valueForKey:@"orderIdx"]);
+    Event *event = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    cell.textLabel.text = [event.timeStamp description];
+    NSLog(@"Path: %@, orderIdx: %@", indexPath, event.orderIdx);
 }
 
 @end
