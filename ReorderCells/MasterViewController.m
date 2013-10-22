@@ -122,25 +122,52 @@
     return YES;
 }
 
--(void)swapOrderBetween:(NSManagedObject*)object1 and:(NSManagedObject*)object2
+- (void)adjustOrderIdxForRow:(NSInteger)row inSection:(NSInteger)section by:(NSInteger)adjustment
 {
-    NSNumber *idx1 = [object1 valueForKey:@"orderIdx"];
-    NSNumber *idx2 = [object2 valueForKey:@"orderIdx"];
-    [object1 setValue:idx2 forKey:@"orderIdx"];
-    [object2 setValue:idx1 forKey:@"orderIdx"];    
+    NSIndexPath *path = [NSIndexPath indexPathForRow:row inSection:section];
+    NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:path];
+    NSNumber *orderIdx = [object valueForKey:@"orderIdx"];
+    orderIdx = [NSNumber numberWithInteger:[orderIdx integerValue] + adjustment];
+    [object setValue:orderIdx forKey:@"orderIdx"];
+}
+
+- (void)moveUp:(NSIndexPath*)fromIndexPath to:(NSIndexPath*)toIndexPath
+{
+    NSInteger section = fromIndexPath.section;
+    
+    NSManagedObject *objectMoved = [[self fetchedResultsController] objectAtIndexPath:fromIndexPath];
+    NSManagedObject *firstObject = [[self fetchedResultsController] objectAtIndexPath:toIndexPath];
+    NSNumber *firstOrderIdx = [firstObject valueForKey:@"orderIdx"];
+    for (NSInteger i = toIndexPath.row; i <= fromIndexPath.row - 1; i++) {
+        [self adjustOrderIdxForRow:i inSection:section by:-1];
+    }
+    [objectMoved setValue:firstOrderIdx forKey:@"orderIdx"];
+}
+
+- (void)moveDown:(NSIndexPath*)fromIndexPath to:(NSIndexPath*)toIndexPath
+{
+    NSInteger section = fromIndexPath.section;
+    
+    NSManagedObject *objectMoved = [[self fetchedResultsController] objectAtIndexPath:fromIndexPath];
+    NSManagedObject *lastObject = [[self fetchedResultsController] objectAtIndexPath:toIndexPath];
+    NSNumber *lastOrderIdx = [lastObject valueForKey:@"orderIdx"];
+    for (NSInteger i = fromIndexPath.row + 1; i <= toIndexPath.row; i++) {
+        [self adjustOrderIdxForRow:i inSection:section by:1];
+    }
+    [objectMoved setValue:lastOrderIdx forKey:@"orderIdx"];
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+{
+    BOOL moveDown = toIndexPath.row > fromIndexPath.row;
+    moveDown ? [self moveDown:fromIndexPath to:toIndexPath] : [self moveUp:fromIndexPath to:toIndexPath];
+    //NSLog(@"Records: %@", [[self fetchedResultsController] fetchedObjects]);
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
     NSError *error = nil;
     if (![context save:&error]) {
         NSLog(@"Unresolved error when swapping objects order: %@, %@", error, [error userInfo]);
         abort();
     }
-}
-
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-    NSManagedObject *object1 = [[self fetchedResultsController] objectAtIndexPath:fromIndexPath];
-    NSManagedObject *object2 = [[self fetchedResultsController] objectAtIndexPath:toIndexPath];
-    [self swapOrderBetween:object1 and:object2];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -255,7 +282,7 @@
 {
     NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = [[object valueForKey:@"timeStamp"] description];
-    //NSLog(@"Index: %@", [object valueForKey:@"orderIdx"]);
+    //NSLog(@"Path: %@, orderIdx: %@", indexPath, [object valueForKey:@"orderIdx"]);
 }
 
 @end
